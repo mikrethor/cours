@@ -1,0 +1,58 @@
+= La syntaxe du langage
+
+La syntaxe de Java est issue du langage C++. Les développeurs de Java se sont basés sur C++ mais ont voulu éliminer les lacunes de C++ au niveau de la programmation distribuée, du multi-threading, de la sécurité.
+
+Voici un exemple de code Java :
+
+
+[source,java]
+----
+int a = 1;
+int b = 2;
+
+int c = a + b;
+----
+
+== Les types de données
+
+== Les types primitifs
+
+=== Les chaines de caractères
+
+=== Les objets
+
+=== Les tableaux
+
+== Les structures de contrôles
+
+=== Les conditions
+
+==== If/Then/Else
+
+==== Switch
+
+=== Les boucles
+
+==== For
+
+==== While
+
+==== Do while
+
+=== Les commandes de sortie
+
+==== Break
+
+==== Continue
+
+=== Les autres structures
+
+==== Try catch voir gestion des exception
+
+==== Procédure/Fonction
+
+== Les commentaires
+
+=== Commentaire standard
+
+=== Commentaire javadoc

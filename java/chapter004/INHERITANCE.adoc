@@ -1,0 +1,11 @@
+== L'héritage en Java
+
+Exemple
+
+Interface, classe abstraite
+
+utiliser Animal
+
+Généricité
+
+ avec animal

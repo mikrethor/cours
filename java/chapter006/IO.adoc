@@ -1,0 +1,14 @@
+== Les I/O (entrées/sorties)
+
+=== Entrées
+
+==== Saisie au clavier
+
+==== Lecture d'un fichier
+
+
+=== Sorties
+
+==== Affichage à l'écran
+
+==== Écriture dans un fichier

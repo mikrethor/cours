@@ -1,0 +1,25 @@
+= Mon premier projet Maven
+
+== Le fichier POM
+
+== Les repositories
+
+=== Local
+
+=== Distant
+
+== Les Plug-ins Maven
+
+=== Définition
+
+=== Les cores
+
+=== Les autres
+
+== Les goals
+
+=== Définition
+
+=== Les goals standards
+
+=== Les goals spécifiques

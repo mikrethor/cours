@@ -1,3 +1,54 @@
 == Les streams
 
 === Principe
+
+Le principe des streams est de faciliter et d'optimiser les traitements sur des collections. 
+L'optimisation vient de la facilité à rendre parallèle un stream lorsque c'est possible.
+
+Un stream consiste à faire plusieurs opérations intermédiaires et une opération finale
+
+=== Les différents streams
+
+==== Stream
+
+==== ParralleleStream
+
+==== IntStream, DoubleStream, LongStream
+
+of,empty,range
+
+=== Les opérations intermédiaires
+
+==== Filter
+
+==== Map
+
+	MapToInt, MapToDouble, MapToLong, MapToObject
+
+==== Get
+
+==== Limit
+
+==== Max, min et count
+
+==== Distinct et sorted
+
+=== Les opérations avancées
+
+==== Collect
+
+==== FlatMap
+
+==== Reduce
+
+
+=== L'opération finale
+
+
+==== NoneMatch
+
+==== AnyMatch
+
+==== ForEach
+
+=== Exemples

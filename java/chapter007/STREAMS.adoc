@@ -81,6 +81,10 @@ Ces streams permettent de réaliser des opérations sur des ensembles d'élémen
 * Double
 * Long
 
+Dans l'exemple ci-dessous, la méthode range permet de créer un IntStream avec des éléments
+de type Integer allant de 0 à 9. Puis la méthode min permet de déterminer le plus petit élément de cet
+ensemble.
+
 [source,java]
 ----
 OptionalInt intStream = IntStream.range(0, 10).min();
@@ -88,12 +92,27 @@ System.out.println(intStream.getAsInt());
 //0
 ----
 
+Le type retourné par min n'est pas de type Integer mais OptionalInt.
+Il est nécessaire d'utiliser getAsInt() pour obtenir la valeur entière attendu.
+Le type OptionalInt contient ou ne contient pas la valeur entière attendu.
+Pour vérifier, si une valeur est présente, il faut utiliser la méthode isPresent() de l'OptionalInt.
+
+Dans l'exemple ci-dessous, la méthode of permet de créer un DoubleStream avec les éléments contenus entre parenthèses.
+Les éléments sont automatiquement convertis en Double.
+Puis la méthode average permet de déterminer la moyenne de tous les éléments.
+Comme pour OptionalInt, la valeur est conservée dans un OptionalDouble et elle
+est accessible par la méthode getAsDouble().
+
 [source,java]
 ----
 OptionalDouble doubleStream = DoubleStream.of(2, 4, 6, 8, 10, 12, 14).average();
 System.out.println(doubleStream.getAsDouble());
 //8
 ----
+
+L'exemple LongStream ci-dessous est très proche de l'exemple IntStream sauf que
+ cette fois-ci c'est le max qui est retourné dans un OptionalLong dont la valeur
+ est accessible avec la méthode getAsLong().
 
 [source,java]
 ----

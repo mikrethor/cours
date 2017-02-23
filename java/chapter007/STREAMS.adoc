@@ -2,18 +2,105 @@
 
 === Principe
 
-Le principe des streams est de faciliter et d'optimiser les traitements sur des collections. 
+Le principe des streams est de faciliter et d'optimiser les traitements sur des flux de données.
 L'optimisation vient de la facilité à rendre parallèle un stream lorsque c'est possible.
 
-Un stream consiste à faire plusieurs opérations intermédiaires et une opération finale
+Un stream consiste :
+
+	1. à partir d'une source (une collection, un tableau, un flux d'entrée/sortie....)
+	2. de réaliser 0 ou plusieurs opérations intermédiaires
+	3. ainsi qu'une seule opération finale.
+
+L'Éxecution du traitement commence lorsque l'opération finale est invoquée et
+ se termine quand l'opération finale se finit.
 
 === Les différents streams
 
+Il existe 3 types de streams :
+
+* Le stream séquentiel
+* Le stream parallèle
+* Le stream de primitives de type Double, Int ou Long
+
 ==== Stream
+
+Un stream sur une collection par exemple va réaliser les opérations de manière séquentielle.
+Pour déclarer un stream sur une collection, il faut utiliser la méthode .stream().
+
+Exemple :
+
+[source,java]
+----
+List<Personne> listePersonnes = Arrays.asList(
+	new Personne("A", "Gilles", 18),
+	new Personne("Pan", "Peter", 16),
+	new Personne("Rose", "Pamela", 42),
+	new Personne("Divad", "David", 16),
+	new Personne("Min", "Max", 18));
+List<Personne> listePersonnes =  new ArrayList<>();
+Stream<Personne> stream=listePersonnes.stream();
+----
+
+Puis avec l'objet stream, il d'accéder aux opérations spécifiques aux streams.
+Nous allons voir ceci plus en détail dans la suite.
+
+Dans le code ci-dessous, le stream va afficher les éléments de la liste de manière séquentielle.
+[source,java]
+----
+stream.forEach(System.out::println);
+----
+
+Je déconseille d'utiliser un stream.foreach pour juste afficher
+ les données le forEach de Collections est plus adapté.
+Car il utilise directement java.lang.Iterable.forEach et non java.util.stream.forEach.
+
+Dans le cas de notre liste ça donne le code suivant :
+[source,java]
+----
+listePersonnes.forEach(System.out::println);
+----
 
 ==== ParralleleStream
 
+Dans l'exemple ci-dessous c'est le même principe sauf que l'affichage
+ ne va pas suivre l'ordre séquentiel de la liste puisque le traitement se fait en parallèle.
+Mais attention parallèle ne veut pas dire plus rapide car notre exemple ne permet pas
+de bénéficier de compenser le surcout engendrer par le parallèlisme.
+
+[source,java]
+----
+Stream<Personne> parallelStream=listePersonnes.stream();
+parallelStream.forEach(System.out::println);
+----
+
 ==== IntStream, DoubleStream, LongStream
+
+Ces streams permettent de réaliser des opérations sur des ensembles d'éléments de type :
+
+* Integer
+* Double
+* Long
+
+[source,java]
+----
+OptionalInt intStream = IntStream.range(0, 10).min();
+System.out.println(intStream.getAsInt());
+//0
+----
+
+[source,java]
+----
+OptionalDouble doubleStream = DoubleStream.of(2, 4, 6, 8, 10, 12, 14).average();
+System.out.println(doubleStream.getAsDouble());
+//8
+----
+
+[source,java]
+----
+OptionalLong longStream = LongStream.range(0, 10).max();
+System.out.println(longStream.getAsLong());
+//9
+----
 
 of,empty,range
 
@@ -41,9 +128,7 @@ of,empty,range
 
 ==== Reduce
 
-
 === L'opération finale
-
 
 ==== NoneMatch
 
@@ -52,3 +137,14 @@ of,empty,range
 ==== ForEach
 
 === Exemples
+
+https://blog.jooq.org/2015/12/08/3-reasons-why-you-shouldnt-replace-your-for-loops-by-stream-foreach/
+
+
+=== Références
+
+https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html
+
+http://winterbe.com/posts/2014/07/31/java8-stream-tutorial-examples/
+
+https://www.mkyong.com/java8/java-8-flatmap-example/

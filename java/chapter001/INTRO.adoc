@@ -16,7 +16,8 @@
 
 == Compilation et interprétation
 
-.Le langage Java est, à la fois, compilé et interprété :
+Le langage Java est, à la fois, compilé et interprété :
+
 * compilé par le compilateur javac contenu dans le JDK
 * interprété par la JVM
 

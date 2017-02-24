@@ -121,16 +121,67 @@ System.out.println(longStream.getAsLong());
 //9
 ----
 
-of,empty,range
-
 === Les opérations intermédiaires
 
 ==== Filter
 
+L'opération filter permet de ne retenir que les éléments qui valident le test.
+Dans l'exemple ci-dessous, seules les personnes qui ont plus de 18 ans sont affichées.
+
+[source,java]
+----
+stream.filter(s -> s.getAge() >= 18).forEach(System.out::println);
+//Gilles A
+//Pamela Rose
+//Max Min
+----
+
 ==== Map
 
-	MapToInt, MapToDouble, MapToLong, MapToObject
+L'opération map permet de transformer le type du stream dans un nouveau type et de faire des transformation.
+Dans le cas ci-dessous, le stream de personne est transformé en stream de chaîne de caractères.
 
+[source,java]
+----
+Stream<String> stringStream = stream.map(s -> s.toString());
+stringStream.forEach(System.out::println);
+//Gilles A
+//Peter Pan
+//Pamela Rose
+//David Divad
+//Max Min
+----
+
+
+L'opération mapToInt permet de transformer le type du stream en IntStream.
+Dans le cas ci-dessous, le stream de personne est transformé en IntStream et ce IntStream permet de donner l'age le plus haut de personnes contenues dans listePersonnes.
+Pour l'exemple, l'age a été transformé en String. Sans cette transformation, le mapToInt deviendrait inutile.
+[source,java]
+----
+IntStream integerStream = listePersonne.stream().map(s -> String.valueOf(s.getAge()))
+				.mapToInt(Integer::parseInt);
+OptionalInt ageMax = integerStream.max();
+System.out.println(ageMax);
+// 42
+----
+
+[source,java]
+----
+DoubleStream doubleStream = listePersonne.stream().map(s -> String.valueOf(s.getAge()))
+		.mapToDouble(Integer::parseInt);
+OptionalDouble ageMax = doubleStream.max();
+System.out.println(ageMax);
+// 42.0
+----
+
+[source,java]
+----
+LongStream longStream = listePersonne.stream().map(s -> String.valueOf(s.getAge()))
+		.mapToLong(Integer::parseInt);
+OptionalLong ageMax = longStream.max();
+System.out.println(ageMax);
+// 42
+----
 ==== Get
 
 ==== Limit

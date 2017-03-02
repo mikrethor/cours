@@ -1,20 +1,316 @@
 = Mon premier projet Maven
 
+Maven est devenu populaire grâce au principe de "convention over configuration". Ce qui veut dire qu'un projet Maven ressemble à tout autre projet Maven.
+En effet, dans un projet Maven, il y aura toujours 3 éléments :
+
+- un fichier POM
+- des conventions sur les noms et l'agencement des répertoires
+- des repositories
+
+L'autre aspect est l'existence d'un écosystème varié de plugin permettant de faire tout est n'importe quoi.
+
 == Le fichier POM
+
+Le fichier "pom.xml" est le fichier central de description du projet. Il permet de définir toutes les informations du projet dont les suivantes :
+- le groupId
+- l'artifactId
+- la  version du projet
+- la description du projet
+- l'équipe
+- les dépendances
+- les plugins
+- la manière de construire le projet
+- le serveur d'intégration continue
+- les repositories à utiliser
+- la documentation à générer
+- ...
+
+En bref, il s'agit de votre nouveau meilleur ami (ou pas...)
+Pour plus d'informations sur le POM allez voir https://maven.apache.org/pom.html#What_is_the_POM[ici]
+
+Voici l'exemple du pom le plus minimaliste :
+
+[source,xml]
+----
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.mycompany.app</groupId>
+  <artifactId>my-app</artifactId>
+  <version>1.0.0</version>
+</project>
+----
+
+== Les conventions
+
+Le groupId est l'identifiant unique du projet parmis tous les projets existants.
+
+L'artifactId est le nom du jar sans la version.
+
+La structure d'un répertoire Maven suit l'arborescence suivante :
+
+[ditaa]
+----
+    +-----+
+    | src |
+	+---+-+
+		|   +------+
+		+-->| main |
+		|	+---+--+
+		|		|   +------+                                  /---------------\
+		|		+-->| java |--------------------------------->|Sources Java   |
+		|		|	+------+                                  \---------------/
+		|		|   +------------+                            /--------------------\
+		|		+-->| ressources |--------------------------->|Ressources du projet|
+		|		|	+------------+                            \--------------------/
+		|		|   +---------------------+                   /--------------------\
+		|		+-->| ressources-filtered |------------------>|Ressources filtrées |
+		|		|	+---------------------+                   \--------------------/
+		|		|   +---------+                               /--------------------------------\
+		|		+-->| filters |------------------------------>|Les filtres pour les ressources |
+		|		|	+---------+		                          \--------------------------------/
+		|		|   +-------+                                 /---------------\
+		|		+-->| webapp|-------------------------------->|Les sources web|
+		|			+-------+                                 \---------------/
+		|   +------+
+		+-->| test |
+		|	+---+--+
+		|		|   +------+                                  /------------------------\
+		|		+-->| java |--------------------------------->|Sources de tests Java   |
+		|		|	+------+                                  \------------------------/
+		|		|   +------------+ 							  /------------------\
+		|		+-->| ressources |--------------------------->|Ressources de test|
+		|		|	+------------+	                          \------------------/	
+		|		|   +---------------------+                   /-----------------------------\
+		|		+-->| ressources-filtered |------------------>|Ressources des tests filtrées|
+		|		|	+---------------------+                   \-----------------------------/
+		|		|   +---------+                               /----------------------------------------\
+		|		+-->| filters |------------------------------>|Les filtres pour les ressources des test|
+		|			+---------+		                          \----------------------------------------/
+		|   +----+                                            /-----------------------\
+		+-->| it |------------------------------------------->|Les tests d'intégration|
+		|	+----+                                            \-----------------------/
+		|   +----------+                                      /----------------------\
+		+-->| assembly |------------------------------------->|Fichiers d'assemblage |
+		|	+----------+                                      \----------------------/
+		|   +------+                                          /----------------------------------\
+		+-->| site |----------------------------------------->|Fichiers pour le site documentaire|
+		|	+------+                                          \----------------------------------/
+		|   +-------------+                                   /----------------------------\
+		+-->| LICENSE.txt |---------------------------------->|Fichier de license du projet|
+		|	+-------------+                                   \----------------------------/
+		|   +------------+                                    /----------------------------------------------------------\
+		+-->| NOTICE.txt |----------------------------------->|Notice et attributions exigés par les librairies du projet|
+		|	+------------+                                    \----------------------------------------------------------/
+		|   +------------+                                    /----------------------\
+		+-->| README.txt |----------------------------------->|Le lisez-moi du projet|
+			+------------+                                    \----------------------/
+----
+
+D'après mon exprérience, il est possible mais fortement déconseillé de sortir de ces conventions sous peine de rencontrer des problèmes lors d'utilisation de plugins maven spécifique.
 
 == Les repositories
 
-=== Local
+Vous avez peut-être déjà entendu que Maven télécharge la Terre entière (enfin moins que Docker...) ce qui est en partie vrai.
+Pour fonctionner, Maven a besoin de plugins qu'il va par défaut aller chercher sur le https://repo1.maven.org/maven2/[Maven Central].
+En effet, même si un projet part du pom minimal vu précédemment, une version de Maven vient avec des plugins à utiliser dans le cycle de vie du projet.
+Pour connaître, les versions et les plugins utilisés par défaut, il faut se positionner à la racine du projet et utiliser la commande Maven suivante :
 
-=== Distant
+-----
+
+mvn help:effective-pom
+
+-----
+
+Cette commande affiche un pom complet du projet dans la console. Mais pour pouvoir mieux exploiter les informations, il vaut mieux générer un fichier à l'aide de l'option -Doutput=effectivePom.xml.
+Ce qui donne :
+
+-----
+
+mvn help:effective-pom -Doutput=effectivePom.xml
+
+-----
+
+Dans ce fichier, se trouve par exemple les informations sur les repositories que Maven utilise pour télécharger les librairies et les plugins.
+Dans les faits Maven télécharge la librairie une fois et le stocke dans le repository dit local.
+
+=== Locaux
+
+Le repository local se trouve en standard dans le répertoire %USER_FOLDER%/.m2 (%USER_FOLDER% répretoir utilisateur système). Plus un développeur utilise de plugins, de dépendances et de version différentes plus se répertoire grossit.
+Les librairies se trouvent dans le sous répertoire repository de %USER_FOLDER%/.m2.
+Le chemin pour une dépendances est déterminée par son groupId/artifactId/version.
+
+Exemple pour la déclration de la librairie ci-dessous.
+
+[source,xml]
+-----
+
+<dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>2.5</version>
+</dependency>
+
+-----
+
+Le chemin est : %USER_FOLDER%/.m2/repository/commons-io/commons-io/2.5
+
+=== Distants
+
+Pour trouver une librairie ou un plugin Maven cherche d'abord dans son repository local puis par défaut, il va chercher dans le Maven central.
+Le Maven central n'est pas le seul repository distant qui existe. 
+Après le Maven central, voici une liste des repositories maven les plus connus :
+
+- https://maven.java.net/content/groups/public/
+- https://maven.repository.redhat.com/ga/
+- http://repo.springsource.org/release/
+- ...
+
+Je recommande de n'utiliser d'autres repositories que le central, qu'en cas d'absolue nécéssité.
+
+Pour utiliser d'autres repository, il existe 2 méthodes :
+
+- configurer les informations du repository voulu dans la configuration Maven
+- créer un repository intermédiaire entre tous les repositories désirés (cas d'une entreprise par exemple)
+
+Dans ce chapitre, nous allons uniquement aborder l'ajout de repository par configuration. La création d'un repository distant sera vue plus tard dans ce cours.
+
+Un repository se caractérise par les 3 informations essentielles suivantes :
+
+- un identifant unique
+- un nom
+- une url d'accès
+
+Pour configurer un repository, il faut ajouter la configuration suivante à notre pom.xml :
+
+[source,xml]
+-----
+
+<repositories>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>warn</checksumPolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+        <checksumPolicy>fail</checksumPolicy>
+      </snapshots>
+      <id>codehausSnapshots</id>
+      <name>Codehaus Snapshots</name>
+      <url>http://monrepo.maven.prefere/</url>
+      <layout>default</layout>
+    </repository>
+  </repositories>
+
+-----
+
+Dans la configuration ci-dessus, il s'agit d'un repository de snapshot (version pre-release).
+Ce genre de repository est ajouté lorsqu'on a besoin des fonctionnalités d'une librairie dont la version n'est pas encore en release.
+
+Pour plus d'infomation, c'est https://maven.apache.org/pom.html#Repositories[ici]
+Pour les repository de plugins Maven, ilf aut utiliser les balises <pluginRepositories> à la place de repository.
+
+[source,xml]
+-----
+
+<pluginRepositories>
+    <pluginRepository>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>http://repo.maven.apache.org/maven2</url>
+      <layout>default</layout>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+    </pluginRepository>
+  </pluginRepositories>
+  
+-----
+
+Dans les faits, il faut très rarement ajouter de nouveau repository à notre configuration maven.
 
 == Les Plug-ins Maven
 
+Sans les plugins, Maven ne serait qu'une coquille vide. C'est pourquoi il télécharge la Terre lors des premières installations.
+
 === Définition
+
+Un plugin Maven est une fonctionnalité. Plus un projet a besoin de fonctionnalité, plus il utilise de plugins.
+
+
+http://maven.apache.org/plugins/
 
 === Les cores
 
+clean	B	3.0.0	2015-10-22	Clean up after the build.	SVN	JIRA
+compiler	B	3.6.1	2017-01-16	Compiles Java sources.	SVN	JIRA
+deploy	B	2.8.2	2014-08-27	Deploy the built artifact to the remote repository.	SVN	JIRA
+failsafe	B	2.19.1	2016-01-03	Run the JUnit integration tests in an isolated classloader.	GIT	JIRA
+install	B	2.5.2	2014-08-27	Install the built artifact into the local repository.	SVN	JIRA
+resources	B	3.0.2	2016-12-10	Copy the resources to the output directory for including in the JAR.	SVN	JIRA
+site	B	3.6	2016-11-17	Generate a site for the current project.	SVN	JIRA
+surefire	B	2.19.1	2016-01-03	Run the JUnit unit tests in an isolated classloader.	GIT	JIRA
+verifier	B	1.1	2015-04-14	Useful for integration tests - verifies the existence of certain conditions.
+
+=== Les plugins pour packager
+
+ear	B	2.10.1	2015-06-27	Generate an EAR from the current project.	SVN	JIRA
+ejb	B	2.5.1	2015-06-20	Build an EJB (and optional client) from the current project.	SVN	JIRA
+jar	B	3.0.2	2016-06-18	Build a JAR from the current project.	SVN	JIRA
+rar	B	2.4	2014-09-08	Build a RAR from the current project.	SVN	JIRA
+war	B	3.0.0	2016-08-24	Build a WAR from the current project.	SVN	JIRA
+app-client/acr	B	3.0.0	2015-01-23	Build a JavaEE application client from the current project.	SVN	JIRA
+shade	B	3.0.0	2017-01-27	Build an Uber-JAR from the current project, including dependencies.	SVN	JIRA
+source	B	3.0.1	2016-06-18	Build a source-JAR from the current project.
+
+=== Les plugins de documentation
+
+changelog	R	2.3	2014-06-24	Generate a list of recent changes from your SCM.	SVN	JIRA
+changes	B+R	2.12.1	2016-11-01	Generate a report from an issue tracker or a change document.	SVN	JIRA
+checkstyle	B+R	2.17	2015-10-15	Generate a Checkstyle report.	SVN	JIRA
+doap	B	1.2	2015-03-17	Generate a Description of a Project (DOAP) file from a POM.	SVN	JIRA
+docck	B	1.1	2015-04-03	Documentation checker plugin.	SVN	JIRA
+javadoc	B+R	2.10.4	2016-06-10	Generate Javadoc for the project.	SVN	JIRA
+jdeps	B	3.0.0	2015-10-29	Run JDK's JDeps tool on the project.	SVN	JIRA
+jxr	R	2.5	2014-11-02	Generate a source cross reference.	SVN	JIRA
+linkcheck	R	1.2	2014-10-08	Generate a Linkcheck report of your project's documentation.	SVN	JIRA
+pmd	B+R	3.7	2016-10-08	Generate a PMD report.	SVN	JIRA
+project-info-reports	R	2.9	2016-03-01	Generate standard project reports.	SVN	JIRA
+surefire-report	R	2.19.1	2016-01-03	Generate a report based on the results of unit tests.
+
+=== Les plugins d'outillage
+
+	
+ant	B	2.4	2014-12-15	Generate an Ant build file for the project.	SVN	JIRA
+antrun	B	1.8	2014-12-26	Run a set of ant tasks from a phase of the build.	SVN	JIRA
+archetype	B	3.0.0	2017-02-12	Generate a skeleton project structure from an archetype.	GIT	JIRA
+assembly	B	3.0.0	2016-11-12	Build an assembly (diastribution) of sources and/or binaries.	SVN	JIRA
+dependency	B+R	3.0.0	2016-12-12	Dependency manipulation (copy, unpack) and analysis.	SVN	JIRA
+enforcer	B	1.4.1	2015-08-23	Environmental constraint checking (Maven Version, JDK etc), User Custom Rule Execution.	SVN	JIRA
+gpg	B	1.6	2015-01-19	Create signatures for the artifacts and poms.	SVN	JIRA
+help	B	2.2	2013-02-23	Get information about the working environment for the project.	SVN	JIRA
+invoker	B+R	2.0.0	2015-06-27	Run a set of Maven projects and verify the output.	SVN	JIRA
+jarsigner	B	1.4	2015-01-21	Signs or verifies project artifacts.	SVN	JIRA
+patch	B	1.2	2015-03-09	Use the gnu patch tool to apply patch files to source code.	SVN	JIRA
+pdf	B	1.3	2015-02-16	Generate a PDF version of your project's documentation.	SVN	JIRA
+plugin	B+R	3.5	2016-08-30	Create a Maven plugin descriptor for any mojos found in the source tree, to include in the JAR.	SVN	JIRA
+release	B	2.5.3	2015-10-17	Release the current project - updating the POM and tagging in the SCM.	SVN	JIRA
+remote-resources	B	1.5	2013-08-14	Copy remote resources to the output directory for inclusion in the artifact.	SVN	JIRA
+repository	B	2.4	2015-02-22	Plugin to help with repository-based tasks.	SVN	JIRA
+scm	B	1.9.5	2016-07-01	Execute SCM commands for the current project.	GIT	JIRA
+scm-publish	B	1.1	2014-05-18	Publish your Maven website to a scm location.	SVN	JIRA
+stage	B	1.0	2015-03-03	Assists with release staging and promotion.	SVN	JIRA
+toolchains	B	1.1	2014-11-12	Allows to share configuration across plugins.
+
 === Les autres
+
+github...
+entrerpsie soap...
 
 == Les goals
 

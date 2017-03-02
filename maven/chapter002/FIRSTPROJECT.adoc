@@ -12,6 +12,7 @@ L'autre aspect est l'existence d'un écosystème varié de plugin permettant de 
 == Le fichier POM
 
 Le fichier "pom.xml" est le fichier central de description du projet. Il permet de définir toutes les informations du projet dont les suivantes :
+
 - le groupId
 - l'artifactId
 - la  version du projet
@@ -209,8 +210,8 @@ Pour configurer un repository, il faut ajouter la configuration suivante à notr
 Dans la configuration ci-dessus, il s'agit d'un repository de snapshot (version pre-release).
 Ce genre de repository est ajouté lorsqu'on a besoin des fonctionnalités d'une librairie dont la version n'est pas encore en release.
 
-Pour plus d'infomation, c'est https://maven.apache.org/pom.html#Repositories[ici]
-Pour les repository de plugins Maven, ilf aut utiliser les balises <pluginRepositories> à la place de repository.
+Pour plus d'infomation, c'est https://maven.apache.org/pom.html#Repositories[ici].
+Pour les repository de plugins Maven, il faut utiliser les balises <pluginRepositories> à la place de repository.
 
 [source,xml]
 -----
@@ -236,7 +237,7 @@ Dans les faits, il faut très rarement ajouter de nouveau repository à notre co
 
 == Les Plug-ins Maven
 
-Sans les plugins, Maven ne serait qu'une coquille vide. C'est pourquoi il télécharge la Terre lors des premières installations.
+Sans les plugins, Maven ne serait qu'une coquille vide. C'est pourquoi, il télécharge la Terre lors des premières utilisations.
 
 === Définition
 

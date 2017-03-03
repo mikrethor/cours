@@ -59,52 +59,52 @@ La structure d'un répertoire Maven suit l'arborescence suivante :
 		|	+---+--+
 		|		|   +------+                                  /---------------\
 		|		+-->| java |--------------------------------->|Sources Java   |
-		|		|	+------+                                  \---------------/
+		|		|	  +------+                                  \---------------/
 		|		|   +------------+                            /--------------------\
 		|		+-->| ressources |--------------------------->|Ressources du projet|
-		|		|	+------------+                            \--------------------/
+		|		|	  +------------+                            \--------------------/
 		|		|   +---------------------+                   /--------------------\
 		|		+-->| ressources-filtered |------------------>|Ressources filtrées |
-		|		|	+---------------------+                   \--------------------/
+		|		|	  +---------------------+                   \--------------------/
 		|		|   +---------+                               /--------------------------------\
 		|		+-->| filters |------------------------------>|Les filtres pour les ressources |
-		|		|	+---------+		                          \--------------------------------/
+		|		|	  +---------+		                            \--------------------------------/
 		|		|   +-------+                                 /---------------\
 		|		+-->| webapp|-------------------------------->|Les sources web|
-		|			+-------+                                 \---------------/
+		|			  +-------+                                 \---------------/
 		|   +------+
 		+-->| test |
-		|	+---+--+
+		|	  +------+
 		|		|   +------+                                  /------------------------\
 		|		+-->| java |--------------------------------->|Sources de tests Java   |
-		|		|	+------+                                  \------------------------/
-		|		|   +------------+ 							  /------------------\
+		|		|	  +------+                                  \------------------------/
+		|		|   +------------+ 							              /------------------\
 		|		+-->| ressources |--------------------------->|Ressources de test|
-		|		|	+------------+	                          \------------------/	
+		|		|	  +------------+	                          \------------------/
 		|		|   +---------------------+                   /-----------------------------\
 		|		+-->| ressources-filtered |------------------>|Ressources des tests filtrées|
-		|		|	+---------------------+                   \-----------------------------/
+		|		|	  +---------------------+                   \-----------------------------/
 		|		|   +---------+                               /----------------------------------------\
 		|		+-->| filters |------------------------------>|Les filtres pour les ressources des test|
-		|			+---------+		                          \----------------------------------------/
-		|   +----+                                            /-----------------------\
-		+-->| it |------------------------------------------->|Les tests d'intégration|
-		|	+----+                                            \-----------------------/
-		|   +----------+                                      /----------------------\
-		+-->| assembly |------------------------------------->|Fichiers d'assemblage |
-		|	+----------+                                      \----------------------/
-		|   +------+                                          /----------------------------------\
-		+-->| site |----------------------------------------->|Fichiers pour le site documentaire|
-		|	+------+                                          \----------------------------------/
-		|   +-------------+                                   /----------------------------\
-		+-->| LICENSE.txt |---------------------------------->|Fichier de license du projet|
-		|	+-------------+                                   \----------------------------/
-		|   +------------+                                    /----------------------------------------------------------\
-		+-->| NOTICE.txt |----------------------------------->|Notice et attributions exigés par les librairies du projet|
-		|	+------------+                                    \----------------------------------------------------------/
-		|   +------------+                                    /----------------------\
-		+-->| README.txt |----------------------------------->|Le lisez-moi du projet|
-			+------------+                                    \----------------------/
+		|			  +---------+		                            \----------------------------------------/
+		|   +----+                                        /-----------------------\
+		+-->| it |--------------------------------------->|Les tests d'intégration|
+		|	+----+                                          \-----------------------/
+		|   +----------+                                  /----------------------\
+		+-->| assembly |--------------------------------->|Fichiers d'assemblage |
+		|	+----------+                                    \----------------------/
+		|   +------+                                      /----------------------------------\
+		+-->| site |------------------------------------->|Fichiers pour le site documentaire|
+		|	+------+                                        \----------------------------------/
+		|   +-------------+                               /----------------------------\
+		+-->| LICENSE.txt |------------------------------>|Fichier de license du projet|
+		|	+-------------+                                 \----------------------------/
+		|   +------------+                                /----------------------------------------------------------\
+		+-->| NOTICE.txt |------------------------------->|Notice et attributions exigés par les librairies du projet|
+		|	+------------+                                  \----------------------------------------------------------/
+		|   +------------+                                /----------------------\
+		+-->| README.txt |------------------------------ >|Le lisez-moi du projet|
+			+------------+                                  \----------------------/
 ----
 
 D'après mon exprérience, il est possible mais fortement déconseillé de sortir de ces conventions sous peine de rencontrer des problèmes lors d'utilisation de plugins maven spécifique.
@@ -158,7 +158,7 @@ Le chemin est : %USER_FOLDER%/.m2/repository/commons-io/commons-io/2.5
 === Distants
 
 Pour trouver une librairie ou un plugin Maven cherche d'abord dans son repository local puis par défaut, il va chercher dans le Maven central.
-Le Maven central n'est pas le seul repository distant qui existe. 
+Le Maven central n'est pas le seul repository distant qui existe.
 Après le Maven central, voici une liste des repositories maven les plus connus :
 
 - https://maven.java.net/content/groups/public/
@@ -230,7 +230,7 @@ Pour les repository de plugins Maven, il faut utiliser les balises <pluginReposi
       </releases>
     </pluginRepository>
   </pluginRepositories>
-  
+
 -----
 
 Dans les faits, il faut très rarement ajouter de nouveau repository à notre configuration maven.
@@ -246,67 +246,177 @@ Un plugin Maven est une fonctionnalité. Plus un projet a besoin de fonctionnali
 
 http://maven.apache.org/plugins/
 
+pour utiliser un plugin .... TODO
+
 === Les cores
 
-clean	B	3.0.0	2015-10-22	Clean up after the build.	SVN	JIRA
-compiler	B	3.6.1	2017-01-16	Compiles Java sources.	SVN	JIRA
-deploy	B	2.8.2	2014-08-27	Deploy the built artifact to the remote repository.	SVN	JIRA
-failsafe	B	2.19.1	2016-01-03	Run the JUnit integration tests in an isolated classloader.	GIT	JIRA
-install	B	2.5.2	2014-08-27	Install the built artifact into the local repository.	SVN	JIRA
-resources	B	3.0.2	2016-12-10	Copy the resources to the output directory for including in the JAR.	SVN	JIRA
-site	B	3.6	2016-11-17	Generate a site for the current project.	SVN	JIRA
-surefire	B	2.19.1	2016-01-03	Run the JUnit unit tests in an isolated classloader.	GIT	JIRA
-verifier	B	1.1	2015-04-14	Useful for integration tests - verifies the existence of certain conditions.
+[cols="2*"]
+|===
+|clean
+|suppression du répertoire target
+
+|compiler
+|compilation des sources
+
+|deploy
+|déploiement du projet sur un repository distant
+
+|failsafe
+|exécution des Junit d'intégration dans un classloader spécifique
+
+|install
+|installation de l'artefact dans le repository local (.m2)
+
+|resources
+|copie des ressources dans le répertoire de sortie pour ajout à l'artefact
+
+|site
+|génération du site documentaire
+
+|surefire
+|exécution des tests unitaires dans un classloader spécifique
+
+|verifier
+|lors des tests d'intégration vérifie l'existence de conditions
+|===
 
 === Les plugins pour packager
 
-ear	B	2.10.1	2015-06-27	Generate an EAR from the current project.	SVN	JIRA
-ejb	B	2.5.1	2015-06-20	Build an EJB (and optional client) from the current project.	SVN	JIRA
-jar	B	3.0.2	2016-06-18	Build a JAR from the current project.	SVN	JIRA
-rar	B	2.4	2014-09-08	Build a RAR from the current project.	SVN	JIRA
-war	B	3.0.0	2016-08-24	Build a WAR from the current project.	SVN	JIRA
-app-client/acr	B	3.0.0	2015-01-23	Build a JavaEE application client from the current project.	SVN	JIRA
-shade	B	3.0.0	2017-01-27	Build an Uber-JAR from the current project, including dependencies.	SVN	JIRA
-source	B	3.0.1	2016-06-18	Build a source-JAR from the current project.
+[cols="2*"]
+|===
+|ear
+|génération de l'EAR du projet
+
+|ejb
+|génération de l'EJB et du client optionnel du projet
+
+|jar
+|génération de le JAR du projet
+
+|rar
+|génération du RAR du projet
+
+|war
+|génération du WAR du projet
+
+|app-client/acr
+|génération d'une application client JavaEE à partir du projet
+
+|shade
+|génération JAR à partir du projet, comprenant les dépendances.
+
+|source
+|génération d'une JAR avec les sources du projet
+
+|===
 
 === Les plugins de documentation
 
-changelog	R	2.3	2014-06-24	Generate a list of recent changes from your SCM.	SVN	JIRA
-changes	B+R	2.12.1	2016-11-01	Generate a report from an issue tracker or a change document.	SVN	JIRA
-checkstyle	B+R	2.17	2015-10-15	Generate a Checkstyle report.	SVN	JIRA
-doap	B	1.2	2015-03-17	Generate a Description of a Project (DOAP) file from a POM.	SVN	JIRA
-docck	B	1.1	2015-04-03	Documentation checker plugin.	SVN	JIRA
-javadoc	B+R	2.10.4	2016-06-10	Generate Javadoc for the project.	SVN	JIRA
-jdeps	B	3.0.0	2015-10-29	Run JDK's JDeps tool on the project.	SVN	JIRA
-jxr	R	2.5	2014-11-02	Generate a source cross reference.	SVN	JIRA
-linkcheck	R	1.2	2014-10-08	Generate a Linkcheck report of your project's documentation.	SVN	JIRA
-pmd	B+R	3.7	2016-10-08	Generate a PMD report.	SVN	JIRA
-project-info-reports	R	2.9	2016-03-01	Generate standard project reports.	SVN	JIRA
-surefire-report	R	2.19.1	2016-01-03	Generate a report based on the results of unit tests.
+[cols="2*"]
+|===
+|changelog
+|génération d'une liste des changements à partir du gestionnaire de sources
+
+|changes
+|génération d'un rapport à partir du gestionnaire de bug
+
+|checkstyle
+|génération d'un rapport checkstyle à partir du code
+
+|doap
+|génération d'un fichier DOAP à partir du fichier POM
+
+|docck
+|Plugin de vérification de la documentation
+
+|javadoc
+|génération de la javadoc à partir du code
+
+|jdeps
+|passage de l'outil JDeps sur le projet
+
+|jxr
+|génération de pages web des sources à partir du code
+
+|linkcheck
+|génération d'un rapport Linkcheck à partir de la documentation
+
+|pmd
+|génération d'un rapport PMD à partir du code
+
+|project-info-reports
+|génération des différents rapports du projet.
+
+|surefire-report
+|génération du rapport de tests unitaires
+
+|===
+
 
 === Les plugins d'outillage
+[cols="2*"]
+|===
+|ant
+|génération d'un fichier de build ant
 
-	
-ant	B	2.4	2014-12-15	Generate an Ant build file for the project.	SVN	JIRA
-antrun	B	1.8	2014-12-26	Run a set of ant tasks from a phase of the build.	SVN	JIRA
-archetype	B	3.0.0	2017-02-12	Generate a skeleton project structure from an archetype.	GIT	JIRA
-assembly	B	3.0.0	2016-11-12	Build an assembly (diastribution) of sources and/or binaries.	SVN	JIRA
-dependency	B+R	3.0.0	2016-12-12	Dependency manipulation (copy, unpack) and analysis.	SVN	JIRA
-enforcer	B	1.4.1	2015-08-23	Environmental constraint checking (Maven Version, JDK etc), User Custom Rule Execution.	SVN	JIRA
-gpg	B	1.6	2015-01-19	Create signatures for the artifacts and poms.	SVN	JIRA
-help	B	2.2	2013-02-23	Get information about the working environment for the project.	SVN	JIRA
-invoker	B+R	2.0.0	2015-06-27	Run a set of Maven projects and verify the output.	SVN	JIRA
-jarsigner	B	1.4	2015-01-21	Signs or verifies project artifacts.	SVN	JIRA
-patch	B	1.2	2015-03-09	Use the gnu patch tool to apply patch files to source code.	SVN	JIRA
-pdf	B	1.3	2015-02-16	Generate a PDF version of your project's documentation.	SVN	JIRA
-plugin	B+R	3.5	2016-08-30	Create a Maven plugin descriptor for any mojos found in the source tree, to include in the JAR.	SVN	JIRA
-release	B	2.5.3	2015-10-17	Release the current project - updating the POM and tagging in the SCM.	SVN	JIRA
-remote-resources	B	1.5	2013-08-14	Copy remote resources to the output directory for inclusion in the artifact.	SVN	JIRA
-repository	B	2.4	2015-02-22	Plugin to help with repository-based tasks.	SVN	JIRA
-scm	B	1.9.5	2016-07-01	Execute SCM commands for the current project.	GIT	JIRA
-scm-publish	B	1.1	2014-05-18	Publish your Maven website to a scm location.	SVN	JIRA
-stage	B	1.0	2015-03-03	Assists with release staging and promotion.	SVN	JIRA
-toolchains	B	1.1	2014-11-12	Allows to share configuration across plugins.
+|antrun
+|exécution d'un ensemble de tâches
+
+|archetype
+|génération d'un squelette de projet à partir d'un archetype
+
+|assembly
+|génération de package sources, binaires, documentation, ...
+
+|dependency
+|gestion des dépendances (copie, décompression) et analyse
+
+|enforcer
+|Environmental constraint checking (Maven Version, JDK etc), User Custom Rule Execution.
+
+|gpg
+|Create signatures for the artifacts and poms.
+
+|help
+|Get information about the working environment for the project.
+
+|invoker
+|Run a set of Maven projects and verify the output.
+
+|jarsigner
+|Signs or verifies project artifacts.
+
+|patch
+|Use the gnu patch tool to apply patch files to source code.
+
+|pdf
+|Generate a PDF version of your project's documentation.
+
+|plugin
+|Create a Maven plugin descriptor for any mojos found in the source tree, to include in the JAR.
+
+|release
+|Release the current project - updating the POM and tagging in the SCM.
+
+|remote-resources
+|Copy remote resources to the output directory for inclusion in the artifact.
+
+|repository
+|Plugin to help with repository-based tasks.
+
+|scm
+|Execute SCM commands for the current project.
+
+|scm-publish
+|Publish your Maven website to a scm location.
+
+|stage
+|Assists with release staging and promotion.
+
+|toolchains
+|Allows to share configuration across plugins.
+
+|===
 
 === Les autres
 

@@ -375,7 +375,7 @@ pour utiliser un plugin .... TODO
 |Environmental constraint checking (Maven Version, JDK etc), User Custom Rule Execution.
 
 |gpg
-|Create signatures for the artifacts and poms.
+|création de signatures pour les artefacts et les poms.
 
 |help
 |Get information about the working environment for the project.
@@ -420,8 +420,12 @@ pour utiliser un plugin .... TODO
 
 === Les autres
 
-github...
-entrerpsie soap...
+Il existe une multitude d'autres plugins pour pléthore de besoins :
+- des plugins entreprise
+- github
+- ....
+
+En plus des plugins existants, il est possible de créer son propre plugin. Nous aborderons ce point plus tard.
 
 == Les goals
 
